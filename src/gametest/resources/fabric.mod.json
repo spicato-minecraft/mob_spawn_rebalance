@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "mob_spawn_rebalance_test",
+	"version": "${version}",
+	"name": "Mob Spawn Rebalance Game Tests",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-gametest": [
+			"mob_spawn_rebalance.gametest.ModLoadsGameTest",
+			"mob_spawn_rebalance.gametest.PeakPhantomSpawnGameTest"
+		]
+	},
+	"depends": {
+		"mob_spawn_rebalance": "*",
+		"fabric-api": "*",
+		"minecraft": "~1.21.11"
+	}
+}

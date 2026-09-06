@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "mob_spawn_rebalance.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"PhantomSpawnerMixin",
+		"SpawnPlacementsMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"schemaVersion": 1,
+	"id": "mob_spawn_rebalance",
+	"version": "${version}",
+	"name": "Mob Spawn Rebalance",
+	"description": "Overworld spawn ecology. Phantoms hunt peak biomes at night like other hostiles — no sleepless-nights countdown.",
+	"authors": [
+		"spicato"
+	],
+	"license": "CC0-1.0",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"mob_spawn_rebalance.MobSpawnRebalance"
+		]
+	},
+	"mixins": [
+		"mob_spawn_rebalance.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

@@ -1,5 +1,7 @@
 package mob_spawn_rebalance.mixin;
 
+import mob_spawn_rebalance.spawn.BreezeSpawnPolicy;
+import mob_spawn_rebalance.spawn.PeakPhantomSpawnPolicy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -15,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Natural phantom attempts use ground + surface-monster rules (darkness and sky), like other peak hostiles.
+ * Natural phantom attempts use ground placement so the night cycle finds the outdoor surface,
+ * then spawn rules require sky + world-surface height (not caves) and an empty hover cell.
+ * Natural breezes stay on outdoor peak/mesa surfaces; mesa also requires plateau Y.
  */
 @Mixin(SpawnPlacements.class)
 public abstract class SpawnPlacementsMixin {
@@ -33,7 +37,7 @@ public abstract class SpawnPlacementsMixin {
 	}
 
 	@Inject(method = "checkSpawnRules", at = @At("HEAD"), cancellable = true)
-	private static void mob_spawn_rebalance$phantomSurfaceRules(
+	private static void mob_spawn_rebalance$phantomSurfaceHoverRules(
 			EntityType<?> type,
 			ServerLevelAccessor level,
 			EntitySpawnReason reason,
@@ -41,8 +45,17 @@ public abstract class SpawnPlacementsMixin {
 			RandomSource random,
 			CallbackInfoReturnable<Boolean> cir
 	) {
-		if (type == EntityType.PHANTOM) {
-			cir.setReturnValue(Monster.checkSurfaceMonstersSpawnRules(EntityType.PHANTOM, level, reason, pos, random));
+		if (type == EntityType.PHANTOM && reason == EntitySpawnReason.NATURAL) {
+			boolean allowed = Monster.checkSurfaceMonstersSpawnRules(EntityType.PHANTOM, level, reason, pos, random)
+					&& PeakPhantomSpawnPolicy.isOutdoorSurface(level, pos)
+					&& PeakPhantomSpawnPolicy.isHoverSpaceClear(level, PeakPhantomSpawnPolicy.hoverPos(pos));
+			cir.setReturnValue(allowed);
+			return;
+		}
+		if (type == EntityType.BREEZE && reason == EntitySpawnReason.NATURAL) {
+			boolean allowed = Monster.checkMonsterSpawnRules(EntityType.BREEZE, level, reason, pos, random)
+					&& BreezeSpawnPolicy.allowsNaturalSpawnLocation(level, pos);
+			cir.setReturnValue(allowed);
 		}
 	}
 }

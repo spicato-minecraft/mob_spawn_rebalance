@@ -3,7 +3,7 @@
 	"id": "mob_spawn_rebalance",
 	"version": "${version}",
 	"name": "Mob Spawn Rebalance",
-	"description": "Overworld spawn ecology. Phantoms hunt peak biomes at night like other hostiles — no sleepless-nights countdown.",
+	"description": "Overworld spawn ecology. Phantoms hunt peak biomes at night. Breezes spawn on peak summits and mesa plateaus (Y 70+).",
 	"authors": [
 		"spicato"
 	],
@@ -19,8 +19,8 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.19.3",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
+		"minecraft": "~26.1",
+		"java": ">=25",
 		"fabric-api": "*"
 	}
 }

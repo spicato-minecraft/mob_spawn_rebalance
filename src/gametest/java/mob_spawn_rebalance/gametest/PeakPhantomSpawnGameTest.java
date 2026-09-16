@@ -2,15 +2,19 @@ package mob_spawn_rebalance.gametest;
 
 import mob_spawn_rebalance.spawn.PeakPhantomSpawnPolicy;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.Blocks;
 
 public class PeakPhantomSpawnGameTest {
 
@@ -29,23 +33,62 @@ public class PeakPhantomSpawnGameTest {
 	}
 
 	@GameTest(maxTicks = 100)
-	public void peakPhantomEntryMatchesCreeperGroupSize(GameTestHelper context) {
+	public void peakPhantomEntryMatchesHuntingGroundRates(GameTestHelper context) {
 		Holder<Biome> biome = context.getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.JAGGED_PEAKS);
-		MobSpawnSettings.SpawnerData phantom = biome.value()
+		var phantomEntry = biome.value()
 				.getMobSettings()
 				.getMobs(MobCategory.MONSTER)
 				.unwrap()
 				.stream()
-				.map(weighted -> weighted.value())
-				.filter(data -> data.type() == EntityType.PHANTOM)
+				.filter(weighted -> weighted.value().type() == EntityType.PHANTOM)
 				.findFirst()
 				.orElse(null);
-		context.assertTrue(phantom != null, "jagged_peaks monster pool should include phantom");
+		context.assertTrue(phantomEntry != null, "jagged_peaks monster pool should include phantom");
+		MobSpawnSettings.SpawnerData phantom = phantomEntry.value();
+		context.assertTrue(
+				phantomEntry.weight() == PeakPhantomSpawnPolicy.SPAWN_WEIGHT,
+				"phantom weight should dominate the peak pool (" + PeakPhantomSpawnPolicy.SPAWN_WEIGHT + ")"
+		);
 		context.assertTrue(
 				phantom.minCount() == PeakPhantomSpawnPolicy.SPAWN_MIN_GROUP
 						&& phantom.maxCount() == PeakPhantomSpawnPolicy.SPAWN_MAX_GROUP,
-				"phantom group size should match creeper/skeleton (4-4)"
+				"phantom group size should stay 4-4"
 		);
+		context.succeed();
+	}
+
+	@GameTest(maxTicks = 100)
+	public void naturalPhantomHoversTwentyBlocksWhenAirIsClear(GameTestHelper context) {
+		BlockPos relativeFeet = new BlockPos(1, 1, 1);
+		context.setBlock(new BlockPos(1, 0, 1), Blocks.STONE);
+		Phantom phantom = context.spawn(EntityType.PHANTOM, relativeFeet.getX(), relativeFeet.getY(), relativeFeet.getZ(), EntitySpawnReason.NATURAL);
+		BlockPos expectedHover = context.absolutePos(relativeFeet).above(PeakPhantomSpawnPolicy.HOVER_OFFSET);
+		context.assertTrue(phantom.isAlive(), "phantom should spawn when hover air is empty");
+		context.assertTrue(
+				phantom.blockPosition().equals(expectedHover),
+				"natural phantom should hover " + PeakPhantomSpawnPolicy.HOVER_OFFSET + " above the surface, at "
+						+ expectedHover + " but was " + phantom.blockPosition()
+		);
+		context.succeed();
+	}
+
+	@GameTest(maxTicks = 100)
+	public void naturalPhantomDoesNotSpawnWhenHoverIsBlocked(GameTestHelper context) {
+		BlockPos relativeFeet = new BlockPos(1, 1, 1);
+		context.setBlock(new BlockPos(1, 0, 1), Blocks.STONE);
+		context.setBlock(relativeFeet.above(PeakPhantomSpawnPolicy.HOVER_OFFSET), Blocks.STONE);
+		Phantom phantom = context.spawn(EntityType.PHANTOM, relativeFeet.getX(), relativeFeet.getY(), relativeFeet.getZ(), EntitySpawnReason.NATURAL);
+		context.assertTrue(!phantom.isAlive(), "phantom should be discarded when hover space is occupied");
+		context.succeed();
+	}
+
+	@GameTest(maxTicks = 100)
+	public void hoverSpaceClearRequiresEmptyAir(GameTestHelper context) {
+		BlockPos hover = context.absolutePos(new BlockPos(2, 8, 2));
+		context.setBlock(new BlockPos(2, 8, 2), Blocks.AIR);
+		context.assertTrue(PeakPhantomSpawnPolicy.isHoverSpaceClear(context.getLevel(), hover), "air should be a valid hover cell");
+		context.setBlock(new BlockPos(2, 8, 2), Blocks.STONE);
+		context.assertTrue(!PeakPhantomSpawnPolicy.isHoverSpaceClear(context.getLevel(), hover), "stone should occupy the hover cell");
 		context.succeed();
 	}
 

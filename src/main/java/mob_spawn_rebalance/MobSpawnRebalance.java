@@ -1,5 +1,6 @@
 package mob_spawn_rebalance;
 
+import mob_spawn_rebalance.spawn.BreezeSpawns;
 import mob_spawn_rebalance.spawn.PeakPhantomSpawns;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,7 @@ public class MobSpawnRebalance implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		PeakPhantomSpawns.register();
-		LOGGER.info("Mob Spawn Rebalance initialized (peak phantoms)");
+		BreezeSpawns.register();
+		LOGGER.info("Mob Spawn Rebalance initialized (peak phantoms, peak/mesa breezes)");
 	}
 }

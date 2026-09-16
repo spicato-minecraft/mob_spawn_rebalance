@@ -37,9 +37,23 @@ class PeakPhantomSpawnPolicyTest {
 	}
 
 	@Test
-	void spawnWeightMatchesCreeperAndSkeleton() {
-		assertEquals(100, PeakPhantomSpawnPolicy.SPAWN_WEIGHT);
+	void spawnWeightDominatesPeakMonsterPool() {
+		assertEquals(600, PeakPhantomSpawnPolicy.SPAWN_WEIGHT);
 		assertEquals(4, PeakPhantomSpawnPolicy.SPAWN_MIN_GROUP);
 		assertEquals(4, PeakPhantomSpawnPolicy.SPAWN_MAX_GROUP);
+	}
+
+	@Test
+	void hoverOffsetIsTwentyBlocks() {
+		assertEquals(20, PeakPhantomSpawnPolicy.HOVER_OFFSET);
+		assertEquals(140, PeakPhantomSpawnPolicy.hoverPos(new net.minecraft.core.BlockPos(0, 120, 0)).getY());
+	}
+
+	@Test
+	void outdoorSurfaceMatchesHeightmapNotCaveFloors() {
+		assertTrue(PeakPhantomSpawnPolicy.isOutdoorSurfaceY(120, 120));
+		assertTrue(PeakPhantomSpawnPolicy.isOutdoorSurfaceY(119, 120));
+		assertFalse(PeakPhantomSpawnPolicy.isOutdoorSurfaceY(40, 120));
+		assertFalse(PeakPhantomSpawnPolicy.isOutdoorSurfaceY(121, 120));
 	}
 }

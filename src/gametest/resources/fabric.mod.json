@@ -7,12 +7,13 @@
 	"entrypoints": {
 		"fabric-gametest": [
 			"mob_spawn_rebalance.gametest.ModLoadsGameTest",
-			"mob_spawn_rebalance.gametest.PeakPhantomSpawnGameTest"
+			"mob_spawn_rebalance.gametest.PeakPhantomSpawnGameTest",
+			"mob_spawn_rebalance.gametest.BreezeSpawnGameTest"
 		]
 	},
 	"depends": {
 		"mob_spawn_rebalance": "*",
 		"fabric-api": "*",
-		"minecraft": "~1.21.11"
+		"minecraft": "~26.1"
 	}
 }

@@ -2,7 +2,7 @@ package mob_spawn_rebalance.spawn;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 
 /**
@@ -17,7 +17,7 @@ public final class PeakPhantomSpawns {
 		BiomeModifications.addSpawn(
 				BiomeSelectors.includeByKey(PeakPhantomSpawnPolicy.PEAK_BIOMES),
 				MobCategory.MONSTER,
-				EntityType.PHANTOM,
+				EntityTypes.PHANTOM,
 				PeakPhantomSpawnPolicy.SPAWN_WEIGHT,
 				PeakPhantomSpawnPolicy.SPAWN_MIN_GROUP,
 				PeakPhantomSpawnPolicy.SPAWN_MAX_GROUP

@@ -8,7 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.level.biome.Biome;
@@ -40,7 +40,7 @@ public class PeakPhantomSpawnGameTest {
 				.getMobs(MobCategory.MONSTER)
 				.unwrap()
 				.stream()
-				.filter(weighted -> weighted.value().type() == EntityType.PHANTOM)
+				.filter(weighted -> weighted.value().type() == EntityTypes.PHANTOM)
 				.findFirst()
 				.orElse(null);
 		context.assertTrue(phantomEntry != null, "jagged_peaks monster pool should include phantom");
@@ -61,7 +61,7 @@ public class PeakPhantomSpawnGameTest {
 	public void naturalPhantomHoversTwentyBlocksWhenAirIsClear(GameTestHelper context) {
 		BlockPos relativeFeet = new BlockPos(1, 1, 1);
 		context.setBlock(new BlockPos(1, 0, 1), Blocks.STONE);
-		Phantom phantom = context.spawn(EntityType.PHANTOM, relativeFeet.getX(), relativeFeet.getY(), relativeFeet.getZ(), EntitySpawnReason.NATURAL);
+		Phantom phantom = context.spawn(EntityTypes.PHANTOM, relativeFeet.getX(), relativeFeet.getY(), relativeFeet.getZ(), EntitySpawnReason.NATURAL);
 		BlockPos expectedHover = context.absolutePos(relativeFeet).above(PeakPhantomSpawnPolicy.HOVER_OFFSET);
 		context.assertTrue(phantom.isAlive(), "phantom should spawn when hover air is empty");
 		context.assertTrue(
@@ -77,7 +77,7 @@ public class PeakPhantomSpawnGameTest {
 		BlockPos relativeFeet = new BlockPos(1, 1, 1);
 		context.setBlock(new BlockPos(1, 0, 1), Blocks.STONE);
 		context.setBlock(relativeFeet.above(PeakPhantomSpawnPolicy.HOVER_OFFSET), Blocks.STONE);
-		Phantom phantom = context.spawn(EntityType.PHANTOM, relativeFeet.getX(), relativeFeet.getY(), relativeFeet.getZ(), EntitySpawnReason.NATURAL);
+		Phantom phantom = context.spawn(EntityTypes.PHANTOM, relativeFeet.getX(), relativeFeet.getY(), relativeFeet.getZ(), EntitySpawnReason.NATURAL);
 		context.assertTrue(!phantom.isAlive(), "phantom should be discarded when hover space is occupied");
 		context.succeed();
 	}

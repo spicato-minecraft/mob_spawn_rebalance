@@ -3,7 +3,7 @@ package mob_spawn_rebalance.spawn;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 
@@ -26,7 +26,7 @@ public final class BreezeSpawns {
 		BiomeModifications.addSpawn(
 				BiomeSelectors.includeByKey(biomes),
 				MobCategory.MONSTER,
-				EntityType.BREEZE,
+				EntityTypes.BREEZE,
 				BreezeSpawnPolicy.SPAWN_WEIGHT,
 				BreezeSpawnPolicy.SPAWN_MIN_GROUP,
 				BreezeSpawnPolicy.SPAWN_MAX_GROUP

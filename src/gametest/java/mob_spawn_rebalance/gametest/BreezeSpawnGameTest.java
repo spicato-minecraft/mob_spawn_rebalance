@@ -7,7 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -56,7 +56,7 @@ public class BreezeSpawnGameTest {
 				.getMobs(MobCategory.MONSTER)
 				.unwrap()
 				.stream()
-				.filter(weighted -> weighted.value().type() == EntityType.BREEZE)
+				.filter(weighted -> weighted.value().type() == EntityTypes.BREEZE)
 				.findFirst()
 				.orElse(null);
 		context.assertTrue(entry != null, biomeKey.identifier() + " monster pool should include breeze");

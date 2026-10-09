@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
@@ -31,7 +32,7 @@ public abstract class SpawnPlacementsMixin {
 			BlockPos pos,
 			CallbackInfoReturnable<Boolean> cir
 	) {
-		if (type == EntityType.PHANTOM) {
+		if (type == EntityTypes.PHANTOM) {
 			cir.setReturnValue(SpawnPlacementTypes.ON_GROUND.isSpawnPositionOk(level, pos, type));
 		}
 	}
@@ -45,15 +46,15 @@ public abstract class SpawnPlacementsMixin {
 			RandomSource random,
 			CallbackInfoReturnable<Boolean> cir
 	) {
-		if (type == EntityType.PHANTOM && reason == EntitySpawnReason.NATURAL) {
-			boolean allowed = Monster.checkSurfaceMonstersSpawnRules(EntityType.PHANTOM, level, reason, pos, random)
+		if (type == EntityTypes.PHANTOM && reason == EntitySpawnReason.NATURAL) {
+			boolean allowed = Monster.checkSurfaceMonstersSpawnRules(EntityTypes.PHANTOM, level, reason, pos, random)
 					&& PeakPhantomSpawnPolicy.isOutdoorSurface(level, pos)
 					&& PeakPhantomSpawnPolicy.isHoverSpaceClear(level, PeakPhantomSpawnPolicy.hoverPos(pos));
 			cir.setReturnValue(allowed);
 			return;
 		}
-		if (type == EntityType.BREEZE && reason == EntitySpawnReason.NATURAL) {
-			boolean allowed = Monster.checkMonsterSpawnRules(EntityType.BREEZE, level, reason, pos, random)
+		if (type == EntityTypes.BREEZE && reason == EntitySpawnReason.NATURAL) {
+			boolean allowed = Monster.checkMonsterSpawnRules(EntityTypes.BREEZE, level, reason, pos, random)
 					&& BreezeSpawnPolicy.allowsNaturalSpawnLocation(level, pos);
 			cir.setReturnValue(allowed);
 		}

@@ -7,7 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
@@ -103,6 +103,6 @@ public final class BreezeSpawnPolicy {
 				.stream()
 				.map(weighted -> weighted.value())
 				.map(MobSpawnSettings.SpawnerData::type)
-				.anyMatch(type -> type == EntityType.BREEZE);
+				.anyMatch(type -> type == EntityTypes.BREEZE);
 	}
 }

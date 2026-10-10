@@ -8,7 +8,10 @@
 		"fabric-gametest": [
 			"mob_spawn_rebalance.gametest.ModLoadsGameTest",
 			"mob_spawn_rebalance.gametest.PeakPhantomSpawnGameTest",
-			"mob_spawn_rebalance.gametest.BreezeSpawnGameTest"
+			"mob_spawn_rebalance.gametest.BreezeSpawnGameTest",
+			"mob_spawn_rebalance.gametest.ServerMixinApplySweep",
+			"mob_spawn_rebalance.gametest.InsomniaDoesNotSpawnPhantoms",
+			"mob_spawn_rebalance.gametest.BreezeMesaHeightGate"
 		]
 	},
 	"depends": {

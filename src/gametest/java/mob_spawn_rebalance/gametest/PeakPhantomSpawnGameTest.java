@@ -1,5 +1,6 @@
 package mob_spawn_rebalance.gametest;
 
+import mob_spawn_rebalance.spawn.NaturalMobSpawns;
 import mob_spawn_rebalance.spawn.PeakPhantomSpawnPolicy;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
@@ -9,7 +10,6 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -35,9 +35,7 @@ public class PeakPhantomSpawnGameTest {
 	@GameTest(maxTicks = 100)
 	public void peakPhantomEntryMatchesHuntingGroundRates(GameTestHelper context) {
 		Holder<Biome> biome = context.getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.JAGGED_PEAKS);
-		var phantomEntry = biome.value()
-				.getMobSettings()
-				.getMobs(MobCategory.MONSTER)
+		var phantomEntry = NaturalMobSpawns.monsterPool(biome)
 				.unwrap()
 				.stream()
 				.filter(weighted -> weighted.value().type() == EntityTypes.PHANTOM)
@@ -50,8 +48,8 @@ public class PeakPhantomSpawnGameTest {
 				"phantom weight should dominate the peak pool (" + PeakPhantomSpawnPolicy.SPAWN_WEIGHT + ")"
 		);
 		context.assertTrue(
-				phantom.minCount() == PeakPhantomSpawnPolicy.SPAWN_MIN_GROUP
-						&& phantom.maxCount() == PeakPhantomSpawnPolicy.SPAWN_MAX_GROUP,
+				phantom.count().minInclusive() == PeakPhantomSpawnPolicy.SPAWN_MIN_GROUP
+						&& phantom.count().maxInclusive() == PeakPhantomSpawnPolicy.SPAWN_MAX_GROUP,
 				"phantom group size should stay 4-4"
 		);
 		context.succeed();

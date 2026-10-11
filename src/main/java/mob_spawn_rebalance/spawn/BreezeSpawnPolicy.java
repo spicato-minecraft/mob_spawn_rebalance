@@ -8,7 +8,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -96,9 +95,7 @@ public final class BreezeSpawnPolicy {
 	}
 
 	public static boolean monsterPoolContainsBreeze(Holder<Biome> biome) {
-		return biome.value()
-				.getMobSettings()
-				.getMobs(MobCategory.MONSTER)
+		return NaturalMobSpawns.monsterPool(biome)
 				.unwrap()
 				.stream()
 				.map(weighted -> weighted.value())

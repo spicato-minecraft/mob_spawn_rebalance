@@ -1,6 +1,7 @@
 package mob_spawn_rebalance.gametest;
 
 import mob_spawn_rebalance.spawn.BreezeSpawnPolicy;
+import mob_spawn_rebalance.spawn.NaturalMobSpawns;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -8,7 +9,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -51,9 +51,7 @@ public class BreezeSpawnGameTest {
 
 	private static void assertEntry(GameTestHelper context, ResourceKey<Biome> biomeKey) {
 		Holder<Biome> biome = context.getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(biomeKey);
-		var entry = biome.value()
-				.getMobSettings()
-				.getMobs(MobCategory.MONSTER)
+		var entry = NaturalMobSpawns.monsterPool(biome)
 				.unwrap()
 				.stream()
 				.filter(weighted -> weighted.value().type() == EntityTypes.BREEZE)
@@ -66,8 +64,8 @@ public class BreezeSpawnGameTest {
 				biomeKey.identifier() + " breeze weight should be " + BreezeSpawnPolicy.SPAWN_WEIGHT
 		);
 		context.assertTrue(
-				breeze.minCount() == BreezeSpawnPolicy.SPAWN_MIN_GROUP
-						&& breeze.maxCount() == BreezeSpawnPolicy.SPAWN_MAX_GROUP,
+				breeze.count().minInclusive() == BreezeSpawnPolicy.SPAWN_MIN_GROUP
+						&& breeze.count().maxInclusive() == BreezeSpawnPolicy.SPAWN_MAX_GROUP,
 				biomeKey.identifier() + " breeze group size should be 1-2"
 		);
 	}

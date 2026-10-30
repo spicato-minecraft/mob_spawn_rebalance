@@ -80,7 +80,7 @@ public class BreezeMesaHeightGate {
 		context.succeed();
 	}
 
-	private static void setNight(ServerLevel level) {
+	static void setNight(ServerLevel level) {
 		Holder<WorldClock> overworld = level.registryAccess().lookupOrThrow(Registries.WORLD_CLOCK).getOrThrow(WorldClocks.OVERWORLD);
 		level.clockManager().setTotalTicks(overworld, NIGHT_WITH_SATURATED_DIFFICULTY);
 		level.updateSkyBrightness();

@@ -11,7 +11,8 @@
 			"mob_spawn_rebalance.gametest.BreezeSpawnGameTest",
 			"mob_spawn_rebalance.gametest.ServerMixinApplySweep",
 			"mob_spawn_rebalance.gametest.InsomniaDoesNotSpawnPhantoms",
-			"mob_spawn_rebalance.gametest.BreezeMesaHeightGate"
+			"mob_spawn_rebalance.gametest.BreezeMesaHeightGate",
+			"mob_spawn_rebalance.gametest.CreeperSurfaceSpawnGameTest"
 		]
 	},
 	"depends": {

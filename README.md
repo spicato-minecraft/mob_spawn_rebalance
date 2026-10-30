@@ -1,6 +1,6 @@
 # Mob Spawn Rebalance
 
-Fabric mod for Minecraft **26.3** that reworks overworld spawn ecology. Phantoms hunt **peak biomes** at night like other hostiles — they no longer use the sleepless-nights countdown. Breezes also appear at night on those peaks and on **mesa plateaus**.
+Fabric mod for Minecraft **26.3** that reworks overworld spawn ecology. Phantoms hunt **peak biomes** at night like other hostiles — they no longer use the sleepless-nights countdown. Breezes also appear at night on those peaks and on **mesa plateaus**. Half of surface creeper packs become another hostile instead; cave creepers keep their vanilla rate.
 
 Elite phantom **loot** still lives in [Mob Loot Rebalance](../mob_loot_rebalance).
 
@@ -67,8 +67,8 @@ See [minecraft-mods/docs/README.md](../docs/README.md) for org-wide release conv
 
 | Layer      | Purpose                                      |
 |------------|----------------------------------------------|
-| Unit tests | Peak biome set, spawn weight/group size, outdoor-surface Y, hover offset; breeze biomes and mesa plateau Y |
-| GameTests  | Peak monster pools; hover 20 blocks up when air is empty; no spawn when blocked; breeze pools on peaks and mesas |
+| Unit tests | Peak biome set, spawn weight/group size, outdoor-surface Y, hover offset; breeze biomes and mesa plateau Y; creeper surface keep-roll and replacement weights |
+| GameTests  | Peak monster pools; hover 20 blocks up when air is empty; no spawn when blocked; breeze pools on peaks and mesas; surface creeper packs reroll, caves and spawners do not |
 
 Behavior tests are tracked in Notion Tasks. Manual UAT items live in the Mod Catalog.
 
@@ -77,3 +77,5 @@ Behavior tests are tracked in Notion Tasks. Manual UAT items live in the Mod Cat
 Vanilla `PhantomSpawner` (insomnia / time-since-rest) is cancelled. Phantoms are added to the `MONSTER` spawn pool in `jagged_peaks`, `frozen_peaks`, and `stony_peaks` only (not snowy slopes, groves, meadows, or windswept hills). Weight is **600** (6× creeper/skeleton) so those peaks play as a phantom hunting ground; group size stays **4–4**. Natural attempts must be the outdoor world-surface (sky + heightmap — not cave floors under the peaks). If the air **20 blocks** above that surface is empty, the phantom appears there; if that space is occupied, the attempt fails instead of spawning on the ground.
 
 Breezes join the same peak `MONSTER` pools, plus `badlands`, `wooded_badlands`, and `eroded_badlands`. Weight is **200** with group size **1–2** (common on those surfaces, not a full takeover). Natural attempts use darkness like other hostiles, must be the outdoor world-surface, and in mesa biomes must be at **Y 70 or higher** so they spawn on terracotta tablelands rather than canyon floors. Trial-chamber spawners are unchanged.
+
+Natural creepers are not reweighted. Cave packs use the vanilla monster weight. Above-ground packs — feet on the no-leaves ground, including under trees — stay creepers **1 of 2** times. The other half is drawn again from that position's monster list, excluding creepers, slimes, and any breeze or phantom the surface rules would reject. The replacement keeps its own vanilla group size, so the pack still shows up. A roof in the same column keeps the vanilla creeper rate. Spawn eggs, monster spawners, and other non-natural reasons are unchanged.

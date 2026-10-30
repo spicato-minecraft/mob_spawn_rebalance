@@ -9,9 +9,10 @@ import net.minecraft.gametest.framework.GameTestHelper;
 public class ServerMixinApplySweep {
 
 	/**
-	 * Binary names of the {@code @Mixin} targets in PhantomSpawnerMixin, PhantomMixin, and SpawnPlacementsMixin.
+	 * Binary names of the {@code @Mixin} targets in NaturalSpawnerMixin, PhantomSpawnerMixin, PhantomMixin, and SpawnPlacementsMixin.
 	 */
 	private static final String[] MIXIN_TARGETS = {
+			"net.minecraft.world.level.NaturalSpawner",
 			"net.minecraft.world.level.levelgen.PhantomSpawner",
 			"net.minecraft.world.entity.monster.Phantom",
 			"net.minecraft.world.entity.SpawnPlacements"

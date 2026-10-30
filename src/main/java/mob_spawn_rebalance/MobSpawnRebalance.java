@@ -14,6 +14,6 @@ public class MobSpawnRebalance implements ModInitializer {
 	public void onInitialize() {
 		PeakPhantomSpawns.register();
 		BreezeSpawns.register();
-		LOGGER.info("Mob Spawn Rebalance initialized (peak phantoms, peak/mesa breezes)");
+		LOGGER.info("Mob Spawn Rebalance initialized (peak phantoms, peak/mesa breezes, surface creepers rerolled)");
 	}
 }

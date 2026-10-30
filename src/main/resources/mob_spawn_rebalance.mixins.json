@@ -3,6 +3,7 @@
 	"package": "mob_spawn_rebalance.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
+		"NaturalSpawnerMixin",
 		"PhantomMixin",
 		"PhantomSpawnerMixin",
 		"SpawnPlacementsMixin"

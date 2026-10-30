@@ -3,7 +3,7 @@
 	"id": "mob_spawn_rebalance",
 	"version": "${version}",
 	"name": "Mob Spawn Rebalance",
-	"description": "Overworld spawn ecology. Phantoms hunt peak biomes at night. Breezes spawn on peak summits and mesa plateaus (Y 70+).",
+	"description": "Overworld spawn ecology. Phantoms hunt peak biomes at night. Breezes spawn on peak summits and mesa plateaus (Y 70+). Half of surface creeper packs become another hostile; cave creepers stay at the vanilla rate.",
 	"authors": [
 		"spicato"
 	],
